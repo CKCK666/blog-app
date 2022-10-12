@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 //signIn
 export const signin = async (req, res) => {
   const { email, password } = req.body;
-
+const n=0
   try {
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
