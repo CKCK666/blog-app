@@ -4,19 +4,19 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 //signIn
 export const signin = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 const n=0
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ username });
     if (!existingUser) {
-      return res.status(404).json({ message: 'User is not found' });
+      return res.json({ message: 'User is not found' });
     }
     const isPasswordCorrect = await bcrypt.compare(
       password,
       existingUser.password
     );
     if (!isPasswordCorrect) {
-      return res.status(403).json({ message: 'incorrect password' });
+      return res.json({ message: 'Incorrect password' });
     }
 
     res.status(200).json(existingUser);
@@ -26,21 +26,23 @@ const n=0
 };
 //signIn
 export const signup = async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
 
+  const { userName, email, password } = req.body;
+  
   try {
     const existingUser = await User.findOne({ email });
+   
     if (existingUser) {
-      return res.status(403).json({ message: 'User already exist' });
+      
+     return res.json({message:"User already exist!!!"}).status(403)
     }
-    if (password != confirmPassword) {
-      return res.status(404).json({ message: 'password not match' });
-    }
+  
     const hashPassword = await bcrypt.hash(password, 10);
+    console.log("am here")
     const newUser = await User.create({
       email,
       password: hashPassword,
-      username: `${firstName} ${lastName}`,
+      username: userName,
     });
 
     res.status(200).json(newUser);
