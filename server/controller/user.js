@@ -5,17 +5,24 @@ import bcrypt from 'bcrypt';
 
 //UPDATE USER
 export const userUpdate = async (req, res) => {
+   
   if (req.body.userId == req.params.id) {
-    console.log();
-    if (req.body.password) {
+  
+    if (req.body.password.length != 0) {
+      console.log("am here")
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
     }
+    else{
+         delete req.body.password
+    }
+    console.log(req.body)
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.body.userId,
         {
-          $set: req.body,
+          $set:req.body
+           
         },
         { new: true }
       );

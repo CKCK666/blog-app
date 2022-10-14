@@ -26,7 +26,9 @@ export default function SinglePost() {
   }, [path]);
 
   const handleDelete = async () => {
+    
     try {
+      
       await axios.delete(`/posts/${post._id}`, {
         data: { username: user.username },
       });

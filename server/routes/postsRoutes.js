@@ -6,7 +6,7 @@ const router = express.Router();
 router.put("/:id",updatePost)
 
 //deletePost
-router.delete(":/id",deletePost)
+router.delete("/:id",deletePost)
 
 //createPost
 router.post("/",createPost)

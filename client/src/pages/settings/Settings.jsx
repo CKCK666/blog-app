@@ -1,6 +1,6 @@
 import "./settings.css";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 
@@ -13,6 +13,19 @@ export default function Settings() {
 
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/"
+ 
+
+
+  useEffect(() => {
+    
+    if(user){
+      setUsername(user.username)
+      setEmail(user.email)
+    }
+    else{
+      window.location.replace("/login")
+    }
+  },[user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +50,7 @@ export default function Settings() {
       const res = await axios.put("/users/" + user._id, updatedUser);
       setSuccess(true);
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+      window.location.reload()
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
     }
@@ -67,18 +81,23 @@ export default function Settings() {
           </div>
           <label>Username</label>
           <input
+          value={username}
+           name="username"
             type="text"
-            placeholder={user.username}
+          
             onChange={(e) => setUsername(e.target.value)}
           />
           <label>Email</label>
           <input
+          value={email}
+          name="email"
             type="email"
-            placeholder={user.email}
+         
             onChange={(e) => setEmail(e.target.value)}
           />
           <label>Password</label>
           <input
+          name="password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />

@@ -4,7 +4,8 @@ import Post from '../models/postModel.js';
 
 //CREATE POST
 export const createPost=async (req, res) => {
-    const newPost = new Post(req.body);
+  console.log(req.body)
+    const newPost = await new Post(req.body);
     try {
       const savedPost = await newPost.save();
       res.status(200).json(savedPost);
@@ -49,8 +50,10 @@ export const updatePost=async(req,res)=>{
 
 //delete post
 export const deletePost=async(req,res)=>{
+  console.log("in delete ")
     try {
         const post =await Post.findById(req.params.id)
+        
         if(post.username==req.body.username){
             try {
                 await post.delete()
