@@ -37,13 +37,13 @@ export const userUpdate = async (req, res) => {
 
 //DELETE USER
 export const userDelete = async (req, res) => {
-    if (req.body.userId == req.params.id) {
+    if ( req.params.id) {
        try {
-        const user=await User.findById(req.body.userId)
+        const user=await User.findById(req.body.params.id)
        
         try {
             await Post.deleteMany({username:user.username})
-            await User.findByIdAndDelete(req.body.userId)
+            await User.findByIdAndDelete(req.body.params)
             res.status(200).json({message:"User has been deleted"})
 
             

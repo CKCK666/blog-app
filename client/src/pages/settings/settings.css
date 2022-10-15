@@ -20,9 +20,16 @@
 }
 
 .settingsDeleteTitle {
-  color: red;
-  font-size: 12px;
-  cursor: pointer;
+
+  width: 150px;
+  align-self: center;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color:red;
+  padding: 10px;
+  margin-top: 20px;
+  cursor: pointer
 }
 
 .settingsForm {

@@ -3,6 +3,8 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState,useEffect } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import Swal from 'sweetalert2'
+
 
 export default function Settings() {
   const [file, setFile] = useState(null);
@@ -10,7 +12,7 @@ export default function Settings() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
-
+   const [about,setAbout]=useState("")
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/"
  
@@ -26,6 +28,30 @@ export default function Settings() {
       window.location.replace("/login")
     }
   },[user]);
+  const deleteHandler=()=>{
+    console.log("deleted ........")
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await axios.delete("/users/" + user._id)
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        ).then(()=>{
+          localStorage.clear()
+          window.location.replace("/login")
+        })
+      }
+    })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +62,7 @@ export default function Settings() {
       email,
       password,
     };
+  
     if (file) {
       const data = new FormData();
       const filename = Date.now() + file.name;
@@ -59,8 +86,16 @@ export default function Settings() {
     <div className="settings">
       <div className="settingsWrapper">
         <div className="settingsTitle">
-          <span className="settingsUpdateTitle">Update Your Account</span>
-          <span className="settingsDeleteTitle">Delete Account</span>
+          <span  className="settingsUpdateTitle">Update Your Account</span>
+          
+        
+        
+        
+           
+          <button className="settingsDeleteTitle" onClick={deleteHandler}>
+        Delete
+          </button>
+          
         </div>
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
@@ -95,12 +130,21 @@ export default function Settings() {
          
             onChange={(e) => setEmail(e.target.value)}
           />
+          <label>About me</label>
+           <input
+          name="about"
+            type="text"
+            value={about}
+            placeholder="Say about you......."
+            onChange={(e) => setAbout(e.target.value)}
+          />
           <label>Password</label>
           <input
           name="password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          
           <button className="settingsSubmit" type="submit">
             Update
           </button>
