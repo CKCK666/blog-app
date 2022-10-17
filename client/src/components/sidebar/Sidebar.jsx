@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import { Link } from "react-router-dom";
 import "./sidebar.css";
-
-export default function Sidebar() {
+import { Context } from "../../context/Context"
+export default function Sidebar({about}) {
   const [cats, setCats] = useState([]);
-
+  const { user, dispatch } = useContext(Context)
+  const PF = "http://localhost:5000/images/"
   useEffect(() => {
     const getCats = async () => {
       const res = await axios.get("/categories");
@@ -18,23 +19,17 @@ export default function Sidebar() {
       <div className="sidebarItem">
         <span className="sidebarTitle">ABOUT ME</span>
         <img
-          src="https://i.pinimg.com/236x/1e/3f/58/1e3f587572a7a7b20bbf1828595a1786--holiday-party-themes-holiday-gift-guide.jpg"
-          alt=""
+          style={{height:"300px",width:"200px"}}
+          src={PF+user.profilePic}
+          alt="Add profile pic"
         />
+        <h1>{user.username}</h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate qui
-          necessitatibus nostrum illum reprehenderit.
+         {user.about}
         </p>
       </div>
       <div className="sidebarItem">
-        <span className="sidebarTitle">CATEGORIES</span>
-        <ul className="sidebarList">
-          {cats.map((c) => (
-            <Link to={`/?cat=${c.name}`} className="link">
-            <li className="sidebarListItem">{c.name}</li>
-            </Link>
-          ))}
-        </ul>
+        
       </div>
       <div className="sidebarItem">
         <span className="sidebarTitle">FOLLOW US</span>

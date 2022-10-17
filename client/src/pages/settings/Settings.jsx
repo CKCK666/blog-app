@@ -23,6 +23,7 @@ export default function Settings() {
     if(user){
       setUsername(user.username)
       setEmail(user.email)
+      setAbout(user.about)
     }
     else{
       window.location.replace("/login")
@@ -40,15 +41,23 @@ export default function Settings() {
       confirmButtonText: 'Yes, delete it!'
     }).then(async(result) => {
       if (result.isConfirmed) {
-        await axios.delete("/users/" + user._id)
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        ).then(()=>{
+        try {
+          await axios.delete(`/users/${user._id}`)
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          ).then(()=>{
+            localStorage.clear()
+            window.location.replace("/login")
+          })
+          
+        } catch (error) {
           localStorage.clear()
           window.location.replace("/login")
-        })
+          
+        }
+       
       }
     })
   }
@@ -61,6 +70,7 @@ export default function Settings() {
       username,
       email,
       password,
+      about
     };
   
     if (file) {
@@ -80,6 +90,8 @@ export default function Settings() {
       window.location.reload()
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
+      
+
     }
   };
   return (
@@ -134,7 +146,7 @@ export default function Settings() {
            <input
           name="about"
             type="text"
-            value={about}
+            
             placeholder="Say about you......."
             onChange={(e) => setAbout(e.target.value)}
           />

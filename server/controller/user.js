@@ -8,6 +8,7 @@ export const userUpdate = async (req, res) => {
    
   if (req.body.userId == req.params.id) {
   
+
     if (req.body.password.length != 0) {
       console.log("am here")
       const salt = await bcrypt.genSalt(10);
@@ -18,6 +19,7 @@ export const userUpdate = async (req, res) => {
     }
     console.log(req.body)
     try {
+      
       const updatedUser = await User.findByIdAndUpdate(
         req.body.userId,
         {
@@ -63,10 +65,15 @@ export const userDelete = async (req, res) => {
 
 //get User
 export  const getUser= async(req,res)=>{
+
     const user=await User.findById(req.params.id)
     if(!user){ return res.status(404).json({message:"User not found"})}
     const {password,...others}=user._doc
-   res.status(200).json(others)
+    res.status(200).json(others)
+ }
+   
+   
+   
+  
 
 
-}
