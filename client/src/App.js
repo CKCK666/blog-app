@@ -13,6 +13,7 @@ function App() {
   const { user } = useContext(Context);
   return (
     <Router>
+   
       <TopBar />
       <Switch>
         <Route exact path="/">

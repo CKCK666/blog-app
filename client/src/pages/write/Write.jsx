@@ -6,7 +6,8 @@ import { Context } from "../../context/Context";
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null)
+  const [category,setCategory] = useState([])
   const { user } = useContext(Context);
 
   const handleSubmit = async (e) => {
@@ -14,6 +15,7 @@ export default function Write() {
     const newPost = {
       username: user.username,
       title,
+      category,
       desc,
     };
     if (file) {
@@ -48,22 +50,29 @@ export default function Write() {
             type="file"
             id="fileInput"
             style={{ display: "none" }}
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => setFile(e.target.files[0])} required
           />
           <input
             type="text"
             placeholder="Title"
             className="writeInput"
             autoFocus={true}
-            onChange={e=>setTitle(e.target.value)}
+            onChange={e=>setTitle(e.target.value)} required
+
           />
+          <select onChange={(e)=>setCategory(e.target.value)} required>
+          <option value="">category</option>
+          <option value="entertainment">entertainment</option>
+           <option value="travel">travel</option>
+            <option value="sport">sport</option>
+          </select>
         </div>
         <div className="writeFormGroup">
           <textarea
             placeholder="Tell your story..."
             type="text"
             className="writeInput writeText"
-            onChange={e=>setDesc(e.target.value)}
+            onChange={e=>setDesc(e.target.value)} required
           ></textarea>
         </div>
         <button className="writeSubmit" type="submit">

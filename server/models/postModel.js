@@ -13,13 +13,14 @@ const PostSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
+    
       required: false,
     },
     username: {
       type: String,
       required: true,
     },
-    categories: {
+    category: {
       type: Array,
       required: false,
     },

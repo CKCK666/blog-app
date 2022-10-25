@@ -12,17 +12,17 @@ import dotenv from "dotenv"
 import path from 'path';
 import {fileURLToPath} from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
+// const __filename = fileURLToPath(import.meta.url);
 
 
-const __dirname = path.dirname(__filename);
+// const __dirname = path.dirname(__filename);
 
 
 dotenv.config()
 const app = express();
 connectDB();
 app.use(cors());
-app.use("/images",express.static(path.join(__dirname+"/images")))
+// app.use("/images",express.static(path.join(__dirname+"/images")))
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
@@ -42,6 +42,11 @@ app.use("/api/categories",categoryRoutes)
 
 //upload route
 app.use("/api/upload",uploadRoutes)
+
+const __dirname=path.resolve()
+app.use("/images",express.static(path.join(__dirname,"/images")))
+
+
 
 const PORT = process.env.PORT || 5000;
 

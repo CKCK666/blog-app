@@ -2,13 +2,19 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./topbar.css";
+import { LinkContainer } from "react-router-bootstrap";
+import {NavDropdown } from "react-bootstrap";
+
+
 
 export default function TopBar() {
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/"
+  console.log(user)
 
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
+  dispatch({ type: "LOGOUT" })
+   
   };
   return (
     <div className="top">
@@ -22,34 +28,84 @@ export default function TopBar() {
         <ul className="topList">
           <li className="topListItem">
             <Link className="link" to="/">
-              HOME
+              Home
             </Link>
           </li>
           <li className="topListItem">
-            <Link className="link" to="/">
-              ABOUT
+            <Link className="link" to="/?cat=sport">
+             Sports
             </Link>
           </li>
           <li className="topListItem">
-            <Link className="link" to="/">
-              CONTACT
+            <Link className="link" to="/?cat=entertainment">
+           Entertainment
+            </Link>
+          </li>
+          <li className="topListItem">
+            <Link className="link" to="/?cat=travel">
+             Travel
             </Link>
           </li>
           <li className="topListItem">
             <Link className="link" to="/write">
-              WRITE
+              Write a post
             </Link>
           </li>
-          <li className="topListItem" onClick={handleLogout}>
-            {user && "LOGOUT"}
-          </li>
+          
+          
+            
+         
+      
+         
+         
+         
+          
+         
         </ul>
       </div>
       <div className="topRight">
+{user ? ( 
+  user.profilePic?(
+    <ul className="topList">
+  <li className="topListItem">
+        <Link  className="link" to="/settings">
+        <img className="topImg" src={PF+user.profilePic} alt="" />
+        </Link>
+      
+        </li>
+  </ul>
+
+  ):null
+
+):null}
+     
+
         {user ? (
-          <Link to="/settings">
-            <img className="topImg" src={PF+user.profilePic} alt="" />
-          </Link>
+    <ul className="topList">
+   
+  
+       
+        <li className="topListItem">
+        <NavDropdown title={user.username} id="username">
+        <NavDropdown.Item>
+        <Link  className="link"  to="/settings">
+    Profile
+    
+    </Link>
+        </NavDropdown.Item>
+  
+       <NavDropdown.Item>
+       <Link  className="link" onClick={handleLogout} >
+      Logout
+      </Link>
+       </NavDropdown.Item>
+     
+    
+    </NavDropdown>
+        </li>    
+       
+    </ul>
+         
         ) : (
           <ul className="topList">
             <li className="topListItem">
@@ -62,10 +118,15 @@ export default function TopBar() {
                 REGISTER
               </Link>
             </li>
+           
           </ul>
         )}
-        <i className="topSearchIcon fas fa-search"></i>
+       
+          
+        
+       
       </div>
+     
     </div>
   );
 }

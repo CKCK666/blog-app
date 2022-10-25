@@ -36,6 +36,7 @@ const Reducer = (state, action) => {
           error: true,
         };
     case "LOGOUT":
+      
       return {
         user: null,
         isFetching: false,

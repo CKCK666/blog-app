@@ -1,11 +1,11 @@
 {
-  "name": "memories",
+  "name": "blog-app",
   "version": "1.0.0",
   "description": "share memories app",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "server": "nodemon  server.js"
+    "start": "node server"
   },
   "author": "",
   "license": "ISC",
